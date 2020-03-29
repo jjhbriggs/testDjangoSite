@@ -119,12 +119,21 @@ class QuestionIndexViewTests(TestCase):
         self.assertContains(response, past_question.question_text)
     def test_successful_vote(self):
         """
-        returns true if a vote is successful
+        returns True if a vote is successful and the user is redirected to the results page
         """
         test_question = Question.objects.create(question_text="Test Question.", pub_date=timezone.now())
         c = Choice.objects.create(question=test_question, choice_text="TESTA", votes=0)
-        c2 = Choice.objects.create(question=test_question, choice_text="TESTB", votes=0)
         url = reverse('polls:vote', args=(test_question.id,))
         response = self.client.post(url,{'choice':'1'})
-        print(response.content)
         self.assertEqual(response.status_code, 302)
+        self.assertRedirects(response, reverse('polls:results', args=(test_question.id,)), status_code=302, target_status_code=200, msg_prefix='', fetch_redirect_response=True)
+    def test_failed_vote(self):
+        """
+        returns True if a vote fails and the user is redirected back to the voting form
+        """
+        test_question = Question.objects.create(question_text="Test Question.", pub_date=timezone.now())
+        c = Choice.objects.create(question=test_question, choice_text="TESTA", votes=0)
+        url = reverse('polls:vote', args=(test_question.id,))
+        response = self.client.post(url,{'choice':'3'})
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "select a choice.")
