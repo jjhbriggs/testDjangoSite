@@ -2,7 +2,7 @@ import datetime
 from django.test import TestCase
 from django.utils import timezone
 
-from .models import Question
+from .models import Question, Choice
 
 from django.urls import reverse
 
@@ -117,3 +117,14 @@ class QuestionIndexViewTests(TestCase):
         url = reverse('polls:detail', args=(past_question.id,))
         response = self.client.get(url)
         self.assertContains(response, past_question.question_text)
+    def test_successful_vote(self):
+        """
+        returns true if a vote is successful
+        """
+        test_question = Question.objects.create(question_text="Test Question.", pub_date=timezone.now())
+        c = Choice.objects.create(question=test_question, choice_text="TESTA", votes=0)
+        c2 = Choice.objects.create(question=test_question, choice_text="TESTB", votes=0)
+        url = reverse('polls:vote', args=(test_question.id,))
+        response = self.client.post(url,{'choice':'1'})
+        print(response.content)
+        self.assertEqual(response.status_code, 302)
