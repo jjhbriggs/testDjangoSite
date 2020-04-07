@@ -1,21 +1,107 @@
+<!DOCTYPE HTML>
+<!--
+	Hyperspace by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
 <html>
-    <head>
-    <meta charset="utf-8">
-    <title>Polls</title>
-    {% load static %}
+	<head>
+		<title>Polls</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+{% load static %}
 
-    <link rel="stylesheet" type="text/css" href="{% static 'polls/style.css' %}">
-    </head>
-    <body>
+<link rel="stylesheet" type="text/css" href="{% static 'polls/assets/css/main.css' %}">
+
+<link rel="stylesheet" type="text/css" href="{% static 'polls/assets/css/noscript.css' %}">
+		<!--link rel="stylesheet" href="assets/css/main.css" /-->
+		<!--noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript-->
+	</head>
+	<body class="is-preload">
+
+		<!-- Sidebar -->
+			<section id="sidebar">
+				<div class="inner">
+					<nav>
+						<ul>
+							<li><a href="#intro">Welcome</a></li>
+							<!--li><a href="#one">Who we are</a></li-->
 {% if latest_question_list %}
     <ul>
     {% for question in latest_question_list %}
-        <li><a href="{% url 'polls:detail' question.id %}">{{ question.question_text }}</a></li>
+        <li><a href="#q{{ question.id }}">{{ question.question_text }}</a></li>
     {% endfor %}
     </ul>
-{% else %}
-    <p>No polls are available.</p>
 {% endif %}
-    </body>
-</html>
+							
+						</ul>
+					</nav>
+				</div>
+			</section>
 
+		<!-- Wrapper -->
+			<div id="wrapper">
+
+				<!-- Intro -->
+					<section id="intro" class="wrapper style1 fullscreen fade-up">
+						<div class="inner">
+							<h1>Polls</h1>
+							<p>An Example Django App for Web Polling</p>
+							<ul class="actions">
+								<li><a href="#one" class="button scrolly">First Question</a></li>
+							</ul>
+						</div>
+					</section>
+
+				<!-- One -->
+					<section class="wrapper style1 fade-up">
+						<div class="inner">
+							<div class="split style1">
+							<section id="one">
+							<h2>QUESTION 1</h2>
+								<form method="post" action="#">
+									<input type="radio" id="rad1" name="radTest" value="Test">
+									  <label for="rad1">Test</label><br>
+									  <input type="radio" id="rad2" name="radTest" value="Test2">
+									  <label for="rad2">Test2</label><br>
+									<ul class="actions">
+										<li><a href="" class="button submit">Submit</a></li>
+									</ul>
+								</form>
+							</section>
+							<section id="two">
+							<h2>QUESTION 2</h2>
+								<form method="post" action="#">
+									<input type="radio" id="rad1" name="radTest" value="Test">
+									  <label for="rad1">Test</label><br>
+									  <input type="radio" id="rad2" name="radTest" value="Test2">
+									  <label for="rad2">Test2</label><br>
+									<ul class="actions">
+										<li><a href="" class="button submit">Submit</a></li>
+									</ul>
+								</form>
+							</section>
+							</div>
+						</div>
+					</section>
+		<!-- Footer -->
+			<footer id="footer" class="wrapper style1-alt">
+				<div class="inner">
+					<ul class="menu">
+						<li>&copy; Jack Briggs. All rights reserved.</li><li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
+						<li><a href="https://github.com/jjhbriggs/testDjangoSite" class="icon brands fa-github"><span class="label">GitHub</span></a></li>
+					</ul>
+				</div>
+			</footer>
+
+		<!-- Scripts -->
+			<script src="{% static 'assets/js/jquery.min.js' %}"></script>
+			<script src="{% static 'assets/js/jquery.scrollex.min.js' %}"></script>
+			<script src="{% static 'assets/js/jquery.scrolly.min.js' %}"></script>
+			<script src="{% static 'assets/js/browser.min.js' %}"></script>
+			<script src="{% static 'assets/js/breakpoints.min.js' %}"></script>
+			<script src="{% static 'assets/js/util.js' %}"></script>
+			<script src="{% static 'assets/js/main.js' %}"></script>
+
+	</body>
+</html>
