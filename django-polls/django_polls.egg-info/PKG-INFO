@@ -3,9 +3,9 @@ Name: django-polls
 Version: 0.1
 Summary: A Django app to conduct Web-based polls.
 Home-page: https://www.example.com/
-Author: Your Name
-Author-email: yourname@example.com
-License: BSD-3-Clause  # Example license
+Author: Jack
+Author-email: jjhbriggs@gmail.com
+License: MIT  # Example license
 Description: Polls
         =====
         
@@ -35,7 +35,7 @@ Classifier: Environment :: Web Environment
 Classifier: Framework :: Django
 Classifier: Framework :: Django :: X.Y  # Replace "X.Y" as appropriate
 Classifier: Intended Audience :: Developers
-Classifier: License :: OSI Approved :: BSD License
+Classifier: License :: OSI Approved :: MIT License
 Classifier: Operating System :: OS Independent
 Classifier: Programming Language :: Python
 Classifier: Programming Language :: Python :: 3

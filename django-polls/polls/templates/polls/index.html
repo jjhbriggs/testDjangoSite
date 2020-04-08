@@ -6,7 +6,7 @@
 -->
 <html>
 	<head>
-		<title>Polls</title>
+		<title>Polls App</title>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
 {% load static %}
@@ -27,11 +27,9 @@
 							<li><a href="#intro">Welcome</a></li>
 							<!--li><a href="#one">Who we are</a></li-->
 {% if latest_question_list %}
-    <ul>
     {% for question in latest_question_list %}
-        <li><a href="#q{{ question.id }}">{{ question.question_text }}</a></li>
+        <li><a href="#q{{ forloop.counter }}">{{ question.question_text }}</a></li>
     {% endfor %}
-    </ul>
 {% endif %}
 							
 						</ul>
@@ -48,42 +46,54 @@
 							<h1>Polls</h1>
 							<p>An Example Django App for Web Polling</p>
 							<ul class="actions">
-								<li><a href="#one" class="button scrolly">First Question</a></li>
+								<li><a href="#q1" class="button scrolly">First Question</a></li>
 							</ul>
 						</div>
 					</section>
-
+				{% if latest_question_list %}
+    					{% for question in latest_question_list %}
 				<!-- One -->
+					{% if not forloop.counter|divisibleby:2 %} 
 					<section class="wrapper style1 fade-up">
 						<div class="inner">
 							<div class="split style1">
-							<section id="one">
-							<h2>QUESTION 1</h2>
-								<form method="post" action="#">
-									<input type="radio" id="rad1" name="radTest" value="Test">
-									  <label for="rad1">Test</label><br>
-									  <input type="radio" id="rad2" name="radTest" value="Test2">
-									  <label for="rad2">Test2</label><br>
-									<ul class="actions">
-										<li><a href="" class="button submit">Submit</a></li>
-									</ul>
-								</form>
+							<section id="q{{ forloop.counter }}">
+							<h2>{{ question.question_text }}</h2>
+								{% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+
+							<form action="{% url 'polls:vote' question.id %}" method="post">
+								{% csrf_token %}
+								{% for choice in question.choice_set.all %}
+								    <input type="radio" name="choice" id="c{{ forloop.parentloop.counter }}hoice{{ forloop.counter }}" value="{{ choice.id }}">
+								    <label for="c{{ forloop.parentloop.counter }}hoice{{ forloop.counter }}">{{ choice.choice_text }}</label><br>
+								{% endfor %}
+							<input type="submit" value="Vote">
+							</form>
 							</section>
-							<section id="two">
-							<h2>QUESTION 2</h2>
-								<form method="post" action="#">
-									<input type="radio" id="rad1" name="radTest" value="Test">
-									  <label for="rad1">Test</label><br>
-									  <input type="radio" id="rad2" name="radTest" value="Test2">
-									  <label for="rad2">Test2</label><br>
-									<ul class="actions">
-										<li><a href="" class="button submit">Submit</a></li>
-									</ul>
-								</form>
+					{% if forloop.last %}
+						</div>
+                                                </div>
+                                        </section>
+					{% endif %}
+                                        
+                                        {% elif forloop.counter|divisibleby:2 %}
+							<section id="q{{ forloop.counter }}">
+							<h2>{{ question.question_text }}</h2>
+								<form action="{% url 'polls:vote' question.id %}" method="post">
+                                                                {% csrf_token %}
+                                                                {% for choice in question.choice_set.all %}
+                                                                    <input type="radio" name="choice" id="c{{ forloop.parentloop.counter }}hoice{{ forloop.counter }}" value="{{ choice.id }}">
+                                                                    <label for="c{{ forloop.parentloop.counter }}hoice{{ forloop.counter }}">{{ choice.choice_text }}</label><br>
+                                                                {% endfor %}
+                                                        <input type="submit" value="Vote">
+                                                        </form>
 							</section>
 							</div>
 						</div>
 					</section>
+                                        {% endif %}
+                                 {% endfor %}
+			{% endif %}
 		<!-- Footer -->
 			<footer id="footer" class="wrapper style1-alt">
 				<div class="inner">
@@ -95,13 +105,13 @@
 			</footer>
 
 		<!-- Scripts -->
-			<script src="{% static 'assets/js/jquery.min.js' %}"></script>
-			<script src="{% static 'assets/js/jquery.scrollex.min.js' %}"></script>
-			<script src="{% static 'assets/js/jquery.scrolly.min.js' %}"></script>
-			<script src="{% static 'assets/js/browser.min.js' %}"></script>
-			<script src="{% static 'assets/js/breakpoints.min.js' %}"></script>
-			<script src="{% static 'assets/js/util.js' %}"></script>
-			<script src="{% static 'assets/js/main.js' %}"></script>
+			<script src="{% static 'polls/assets/js/jquery.min.js' %}"></script>
+			<script src="{% static 'polls/assets/js/jquery.scrollex.min.js' %}"></script>
+			<script src="{% static 'polls/assets/js/jquery.scrolly.min.js' %}"></script>
+			<script src="{% static 'polls/assets/js/browser.min.js' %}"></script>
+			<script src="{% static 'polls/assets/js/breakpoints.min.js' %}"></script>
+			<script src="{% static 'polls/assets/js/util.js' %}"></script>
+			<script src="{% static 'polls/assets/js/main.js' %}"></script>
 
 	</body>
 </html>
