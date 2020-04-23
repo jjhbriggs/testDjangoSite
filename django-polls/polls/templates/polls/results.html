@@ -1,14 +1,115 @@
+<!DOCTYPE HTML>
+<!--
+	Hyperspace by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
 <html>
-<head><title>results</title></head>
-<body>
-<h1>{{ question.question_text }}</h1>
+	<head>
+		<title>Polls App -- Results</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+{% load static %}
+
+<link rel="stylesheet" type="text/css" href="{% static 'polls/assets/css/main.css' %}">
+
+<link rel="stylesheet" type="text/css" href="{% static 'polls/assets/css/noscript.css' %}">
+		<!--link rel="stylesheet" href="assets/css/main.css" /-->
+		<!--noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript-->
+<style>canvas{
+
+  width:500px !important;
+  height:500px !important;
+
+}</style>
+	</head>
+	<body class="is-preload">
+
+		<!-- Sidebar -->
+			<section id="sidebar">
+				<div class="inner">
+					<nav>
+						<ul>
+							<li><a href="{% url 'polls:index' %}">Home</a></li>
+							<!--li><a href="#one">Who we are</a></li-->
+						</ul>
+					</nav>
+				</div>
+			</section>
+
+		<!-- Wrapper -->
+			<div id="wrapper">
+					<section class="wrapper style1 fade-up">
+						<div class="inner">
+							<section id="results">
+							<h1>{{ question.question_text }}</h1>
 
 <ul>
 {% for choice in question.choice_set.all %}
     <li>{{ choice.choice_text }} -- {{ choice.votes }} vote{{ choice.votes|pluralize }}</li>
 {% endfor %}
 </ul>
+<canvas id="myChart" width="500" height="500"></canvas>
+							
+							</section>
+						</div>
+                                                </div>
+                                        </section>
+		<!-- Footer -->
+			<footer id="footer" class="wrapper style1-alt">
+				<div class="inner">
+					<ul class="menu">
+						<li>&copy; Jack Briggs. All rights reserved.</li><li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
+						<li><a href="https://github.com/jjhbriggs/testDjangoSite" class="icon brands fa-github"><span class="label">GitHub</span></a></li>
+					</ul>
+				</div>
+			</footer>
 
-<a href="{% url 'polls:detail' question.id %}">Vote again?</a>
-</body>
+		<!-- Scripts -->
+			<script src="{% static 'polls/assets/js/jquery.min.js' %}"></script>
+			<script src="{% static 'polls/assets/js/jquery.scrollex.min.js' %}"></script>
+			<script src="{% static 'polls/assets/js/jquery.scrolly.min.js' %}"></script>
+			<script src="{% static 'polls/assets/js/browser.min.js' %}"></script>
+			<script src="{% static 'polls/assets/js/breakpoints.min.js' %}"></script>
+			<script src="{% static 'polls/assets/js/util.js' %}"></script>
+			<script src="{% static 'polls/assets/js/main.js' %}"></script>
+                        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
+<script>
+    new Chart(document.getElementById("myChart"), {
+    type: 'doughnut',
+    data: {
+      labels: [
+{% for choice in question.choice_set.all %}
+    "{{ choice.choice_text }}"{% if not forloop.last %},{% endif %}
+{% endfor %}
+],
+      datasets: [
+        {
+          label: "Votes",
+          backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9","#c45850"],
+          data: [
+{% for choice in question.choice_set.all %}
+    {{ choice.votes }}{% if not forloop.last %},{% endif %}
+{% endfor %}
+]
+        }
+      ]
+    },
+    options: {
+      responsive: true,
+      title: {
+        display: false,
+        text: ''
+      },
+      legend: {
+            labels: {
+                fontColor: "white",
+                fontSize: 36
+            }
+      }
+    }
+});
+</script>
+
+	</body>
 </html>
