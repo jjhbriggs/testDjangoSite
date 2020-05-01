@@ -42,14 +42,14 @@
 					<section class="wrapper style1 fade-up">
 						<div class="inner">
 							<section id="results">
-							<h1>{{ question.question_text }}</h1>
-
+							<h1>Votes for "{{ question.question_text }}"</h1>
+<canvas id="myChart" width="500" height="500">
 <ul>
 {% for choice in question.choice_set.all %}
     <li>{{ choice.choice_text }} -- {{ choice.votes }} vote{{ choice.votes|pluralize }}</li>
 {% endfor %}
 </ul>
-<canvas id="myChart" width="500" height="500"></canvas>
+</canvas>
 							
 							</section>
 						</div>
@@ -86,7 +86,7 @@
       datasets: [
         {
           label: "Votes",
-          backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9","#c45850"],
+          backgroundColor: ["#12a2a8","#2ca030","#78a641","#bcbd22","#ffbf50","#ffaa0e","#ff7f0e","#d63a3a","#c7519c","#ba43b4","#8a60b0","#6f63bb"],
           data: [
 {% for choice in question.choice_set.all %}
     {{ choice.votes }}{% if not forloop.last %},{% endif %}
@@ -106,6 +106,10 @@
                 fontColor: "white",
                 fontSize: 36
             }
+      },
+      tooltips: {
+        titleFontSize: 36,
+        bodyFontSize: 36
       }
     }
 });
